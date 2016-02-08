@@ -41,19 +41,34 @@
     <a ng-click="gotoElement('oi1')">Go to middle</a><br/>
     <a ng-click="gotoElement('oi2')">Go to bottom</a>
 </ul>
-    <div id="oi1">
-        <p>Hello 1</p>
-    </div>
 
-    <div id="oi2">
-        <p>Hello 2</p>
-    </div>
+<div ng-view></div>
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
 
 <script type="text/javascript">
     // var $scope, $location;
-    var app = angular.module('myApp', []);
+    var app = angular.module('myApp', ['ngRoute']);
+
+    app.config(function($routeProvider, $locationProvider){
+       // remove o # da url
+       // $locationProvider.html5Mode(true);
+
+       $routeProvider
+
+       .when('/', {
+          templateUrl : '/other/example1.html',
+          controller     : 'myCtrl',
+       })
+
+       .when('/example2', {
+          templateUrl : '/other/example2.html',
+          controller     : 'myCtrl2',
+       })
+
+       .otherwise ({ redirectTo: '/' });
+    });
 
     app.service('anchorSmoothScroll', function(){
 
@@ -121,6 +136,10 @@
         };
 
       // anchorSmoothScroll.scrollTo('oi2');
+    });
+
+    app.controller('myCtrl2', function($scope){
+        $scope.title = 'Le title';
     });
 </script>
 </body>
